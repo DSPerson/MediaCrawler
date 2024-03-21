@@ -38,7 +38,6 @@ async def main():
                         choices=["qrcode", "phone", "cookie"], default=config.LOGIN_TYPE)
     parser.add_argument('--type', type=str, help='crawler type (search | detail | creator)',
                         choices=["search", "detail", "creator"], default=config.CRAWLER_TYPE)
-
     # init db
     if config.SAVE_DATA_OPTION == "db":
         await db.init_db()

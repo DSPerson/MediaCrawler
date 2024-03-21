@@ -47,6 +47,7 @@ class XiaoHongShuCrawler(AbstractCrawler):
         async with async_playwright() as playwright:
             # Launch a browser context.
             chromium = playwright.chromium
+            # 初始化 无痕浏览器
             self.browser_context = await self.launch_browser(
                 chromium,
                 None,
@@ -62,11 +63,14 @@ class XiaoHongShuCrawler(AbstractCrawler):
                 'domain': ".xiaohongshu.com",
                 'path': "/"
             }])
+            # create a new page
             self.context_page = await self.browser_context.new_page()
+            # in this page open an url
             await self.context_page.goto(self.index_url)
 
             # Create a client to interact with the xiaohongshu website.
             self.xhs_client = await self.create_xhs_client(httpx_proxy_format)
+            # if not login
             if not await self.xhs_client.pong():
                 login_obj = XHSLogin(
                     login_type=self.login_type,
